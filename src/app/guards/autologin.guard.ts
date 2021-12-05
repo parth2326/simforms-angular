@@ -5,7 +5,7 @@ import { Observable } from 'rxjs';
 @Injectable({
   providedIn: 'root'
 })
-export class AuthGuard implements CanActivate {
+export class AutoLoginGuard implements CanActivate {
   constructor(private router: Router) { }
 
   // check if the token is expired
@@ -18,10 +18,10 @@ export class AuthGuard implements CanActivate {
     next: ActivatedRouteSnapshot,
     state: RouterStateSnapshot): Observable<boolean | UrlTree> | Promise<boolean | UrlTree> | boolean | UrlTree {
       const localKey = localStorage.getItem('authKey');
-      if (localKey != null || this.tokenExpired(localKey)) {
+      if (localKey == null || this.tokenExpired(localKey)) {
         return true;
       } else {
-        this.router.navigate(['/']);
+        this.router.navigate(['/users']);
         return false;
       }
   }

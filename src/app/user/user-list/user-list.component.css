@@ -1,0 +1,16 @@
+.inner-content {
+  background: #fff;
+  padding: 24px;
+  min-height: 280px;
+}
+nz-header {
+  padding: 0;
+}
+
+nz-header .container{
+  max-width: 1325px;
+  margin: 0 auto;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}

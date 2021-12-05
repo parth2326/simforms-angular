@@ -1,0 +1,108 @@
+<nz-layout class="layout">
+  <nz-header>
+    <div class="container">
+      <ul nz-menu nzTheme="dark" nzMode="horizontal">
+        <li nz-menu-item>SIMFORMS</li>
+      </ul>
+
+      <button (click)="logout()" nz-button nzType="default">Logout</button>
+    </div>
+  </nz-header>
+  <nz-content>
+    <div class="inner-content">
+
+      <!-- Search Bar -->
+      <div nz-row [nzGutter]="16">
+        <div nz-col nzSpan="6">
+          <nz-input-group [nzSuffix]="suffixIconSearch">
+            <input
+              type="text"
+              nz-input
+              (input)="search$.next($event.target.value)"
+              placeholder="Search..."
+            />
+          </nz-input-group>
+
+          <ng-template #suffixIconSearch>
+            <i nz-icon nzType="search"></i>
+          </ng-template>
+        </div>
+
+        <div nz-col nzSpan="3">
+          <nz-select [(ngModel)]="status" style="width:100%" (ngModelChange)="changeSearch($event)">
+            <nz-option nzValue="all" nzLabel="All"></nz-option>
+            <nz-option nzValue="1" nzLabel="Active"></nz-option>
+            <nz-option nzValue="0" nzLabel="InActive"></nz-option>
+          </nz-select>
+        </div>
+      </div>
+
+      <!-- End of Search Bar -->
+
+      <br />
+      <br />
+
+      <nz-table
+        nzSize="small"
+        [nzData]="userList"
+        [nzFrontPagination]="false"
+        [nzLoading]="loading"
+        [nzTotal]="total"
+        [nzPageSize]="pageSize"
+        [nzPageIndex]="pageIndex"
+        (nzQueryParams)="onQueryParamsChange($event)"
+        [nzData]="userList"
+      >
+        <thead>
+          <tr>
+            <th>Image</th>
+            <th nzColumnKey="firstName" [nzSortFn]="true">First Name</th>
+            <th nzColumnKey="lastName" [nzSortFn]="true">Last Name</th>
+            <th nzColumnKey="email" [nzSortFn]="true">Email</th>
+            <th
+              nzColumnKey="status"
+              [nzSortFn]="true"
+            >
+              Status
+            </th>
+            <th nzColumnKey="createdAt" [nzSortFn]="true">Created At</th>
+            <th>Action</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let data of userList">
+            <td>
+
+              <nz-avatar *ngIf="data.displayPicture" nzIcon="user" [nzSrc]="data.getDisplayPictureUrl()"></nz-avatar>
+              <nz-avatar *ngIf="!data.displayPicture" nzIcon="user"></nz-avatar>
+
+            </td>
+            <td> {{ data.firstName }} </td>
+            <td> {{ data.lastName }} </td>
+            <td> {{ data.email }} </td>
+            <td>
+
+              <nz-switch
+                [ngModel]="data.status"
+                (ngModelChange)="changeUserStatus($event,data)"
+                [nzCheckedChildren]="checkedTemplate"
+                [nzUnCheckedChildren]="unCheckedTemplate"
+              ></nz-switch>
+
+              <ng-template #checkedTemplate>Active</ng-template>
+              <ng-template #unCheckedTemplate>Inactive</ng-template>
+
+            </td>
+
+            <td> {{ data.createdAt | date }} </td>
+
+            <td>
+              <a (click)="openEditUserDrawer(data)">Edit</a>
+            </td>
+
+          </tr>
+        </tbody>
+      </nz-table>
+    </div>
+  </nz-content>
+</nz-layout>

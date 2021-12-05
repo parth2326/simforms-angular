@@ -1,0 +1,47 @@
+<form nz-form [formGroup]="editUserForm" (ngSubmit)="submitForm()">
+
+  <div class="error-container"  *ngIf="errorResponse">
+    <nz-alert
+
+    nzType="error"
+    [nzMessage]="errorResponse.errors.join('\n')"
+  ></nz-alert>
+  </div>
+
+  <nz-form-item>
+    <nz-form-label [nzSm]="6" [nzXs]="24" nzRequired nzFor="firstName">First Name</nz-form-label>
+    <nz-form-control [nzSm]="14" [nzXs]="24" nzErrorTip="The input is not valid First Name!">
+      <input nz-input formControlName="firstName"  />
+    </nz-form-control>
+  </nz-form-item>
+
+  <nz-form-item>
+    <nz-form-label [nzSm]="6" [nzXs]="24" nzRequired nzFor="lastName">Last Name</nz-form-label>
+    <nz-form-control [nzSm]="14" [nzXs]="24" nzErrorTip="The input is not valid Last Name!">
+      <input nz-input formControlName="lastName"  />
+    </nz-form-control>
+  </nz-form-item>
+
+  <nz-form-item>
+    <nz-form-label [nzSm]="6" [nzXs]="24" nzFor="password">Password</nz-form-label>
+    <nz-form-control  nzExtra="Enter the password only if you want it to be changed." [nzSm]="14" [nzXs]="24" nzErrorTip="The input is not valid Password!">
+      <input nz-input type="password" formControlName="password"  />
+    </nz-form-control>
+  </nz-form-item>
+
+
+  <nz-form-item>
+    <nz-form-label [nzSm]="6" [nzXs]="24" nzFor="file">Profile Picture</nz-form-label>
+    <nz-form-control nzExtra="Select the picture only if you want it to be changed" [nzSm]="14" [nzXs]="24" nzErrorTip="The input is not valid Password!">
+      <input  type="file"
+      (change)="onFileChange($event)" />
+    </nz-form-control>
+  </nz-form-item>
+
+
+  <nz-form-item nz-row >
+    <nz-form-control  [nzSpan]="14" [nzOffset]="6">
+      <button [nzLoading]="loading" nz-button nzType="primary">Save</button>
+    </nz-form-control>
+  </nz-form-item>
+</form>
